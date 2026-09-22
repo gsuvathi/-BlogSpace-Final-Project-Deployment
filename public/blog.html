@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Blog Posts</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        nav {
+            background: #222;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: white;
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            color: #ddd;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            margin-bottom: 10px;
+        }
+
+        .blog-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .blog-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-card h2 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        .author {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .content {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            background: #333;
+        }
+
+        .btn:hover {
+            background: #555;
+        }
+
+        .loading,
+        .error,
+        .empty {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>BlogSpace</h2>
+
+        <div>
+            <a href="/home.html">Home</a>
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/create-blog.html">Create Blog</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="page-title">
+            <h1>All Blog Posts</h1>
+            <p>Read the latest posts from our bloggers</p>
+        </div>
+
+        <div id="blogList" class="blog-list">
+            <div class="loading">
+                Loading blog posts...
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function loadBlogs() {
+
+            const blogList = document.getElementById("blogList");
+
+            try {
+
+                const response = await fetch("/api/blogs");
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch blogs");
+                }
+
+                const blogs = await response.json();
+
+                if (!blogs || blogs.length === 0) {
+                    blogList.innerHTML = `
+                        <div class="empty">
+                            <h2>No blog posts found</h2>
+                            <p>Create your first blog post.</p>
+                            <a href="/create-blog.html" class="btn">
+                                Create Blog
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                blogList.innerHTML = "";
+
+                blogs.forEach(blog => {
+
+                    const card = document.createElement("div");
+                    card.className = "blog-card";
+
+                    card.innerHTML = `
+                        <h2>${escapeHtml(blog.title)}</h2>
+
+                        <div class="author">
+                            By ${escapeHtml(blog.author || "Unknown")}
+                        </div>
+
+                        <div class="content">
+                            ${escapeHtml(blog.content || "").substring(0, 150)}
+                            ${blog.content && blog.content.length > 150 ? "..." : ""}
+                        </div>
+
+                        <div class="buttons">
+                            <a
+                                href="/blog-details.html?id=${blog.id || blog._id}"
+                                class="btn"
+                            >
+                                View Details
+                            </a>
+                        </div>
+                    `;
+
+                    blogList.appendChild(card);
+                });
+
+            } catch (error) {
+
+                console.error("Error loading blogs:", error);
+
+                blogList.innerHTML = `
+                    <div class="error">
+                        <h2>Unable to load blog posts</h2>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadBlogs();
+    </script>
+
+</body>
+</html>

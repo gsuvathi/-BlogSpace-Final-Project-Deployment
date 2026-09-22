@@ -1,195 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
 
-    <title>BlogSpace | Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 30px;
+        }
 
-    <link
-        rel="stylesheet"
-        href="css/style.css">
+        h1 {
+            text-align: center;
+            color: #222;
+        }
 
+        .blogs {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .blog {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .blog h2 {
+            margin-top: 0;
+        }
+
+        .author {
+            color: #666;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background: #555;
+        }
+    </style>
 </head>
 
 <body>
 
-<nav class="navbar">
+    <h1>My Blog Application</h1>
 
-    <a href="index.html" class="logo">
-        BlogSpace
-    </a>
-
-    <div class="nav-links">
-
-        <a href="index.html">
-            Home
-        </a>
-
-        <a href="dashboard.html" class="active">
-            Dashboard
-        </a>
-
-        <a
-            href="create-blog.html"
-            class="nav-button">
-            Create Blog
-        </a>
-
-        <a
-            href="#"
-            onclick="logoutUser(); return false;">
-            Logout
-        </a>
-
+    <div class="blogs" id="blogs">
+        Loading blogs...
     </div>
 
-</nav>
+    <script>
+        async function loadBlogs() {
 
+            const response = await fetch("/api/blogs");
 
-<main class="dashboard-container">
+            const blogs = await response.json();
 
-    <section class="dashboard-header">
+            const container = document.getElementById("blogs");
 
-        <div>
+            container.innerHTML = "";
 
-            <p class="eyebrow">
-                YOUR ACCOUNT
-            </p>
+            blogs.forEach(blog => {
 
-            <h1>
-                Dashboard
-            </h1>
+                container.innerHTML += `
+                    <div class="blog">
 
-            <p
-                id="welcomeUser"
-                class="subtitle">
-                Welcome back!
-            </p>
+                        <h2>${blog.title}</h2>
 
-        </div>
+                        <p class="author">
+                            Author: ${blog.author}
+                        </p>
 
+                        <p>
+                            ${blog.content}
+                        </p>
 
-        <a
-            href="create-blog.html"
-            class="primary-btn">
+                        <a class="button"
+                           href="/blog.html?id=${blog.id}">
+                            Read More
+                        </a>
 
-            + Create Blog
+                    </div>
+                `;
+            });
+        }
 
-        </a>
-
-    </section>
-
-
-    <section class="stats-grid">
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                📝
-            </div>
-
-            <div>
-
-                <h2 id="totalBlogs">
-                    0
-                </h2>
-
-                <p>
-                    Total Blogs
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                👁️
-            </div>
-
-            <div>
-
-                <h2>
-                    0
-                </h2>
-
-                <p>
-                    Total Views
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                ❤️
-            </div>
-
-            <div>
-
-                <h2>
-                    0
-                </h2>
-
-                <p>
-                    Likes
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <section class="blogs-section">
-
-        <div class="section-header">
-
-            <div>
-
-                <p class="eyebrow">
-                    YOUR CONTENT
-                </p>
-
-                <h2>
-                    My Blogs
-                </h2>
-
-            </div>
-
-
-            <input
-                type="text"
-                id="searchBlogs"
-                placeholder="Search blogs..."
-                oninput="searchBlogs()">
-
-        </div>
-
-
-        <div id="dashboardBlogList">
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<script src="js/script.js"></script>
+        loadBlogs();
+    </script>
 
 </body>
-
 </html>

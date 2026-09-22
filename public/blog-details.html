@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>BlogSpace - Blog Details</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        .blog-details {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-details h1 {
+            margin-bottom: 15px;
+        }
+
+        .blog-author {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .blog-date {
+            display: block;
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        .blog-content {
+            line-height: 1.8;
+            font-size: 17px;
+            white-space: pre-wrap;
+            margin-bottom: 30px;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .read-more:hover {
+            background: #555;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="logo">
+            BlogSpace
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="blog.html">
+                Blogs
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="create-blog.html">
+                Create Blog
+            </a>
+
+            <a href="#" onclick="logoutUser()">
+                Logout
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- BLOG DETAILS -->
+
+    <main class="container">
+
+        <article id="blogDetails" class="blog-details">
+
+            <p>Loading blog...</p>
+
+        </article>
+
+    </main>
+
+
+    <script>
+
+        async function loadBlogDetails() {
+
+            const container =
+                document.getElementById("blogDetails");
+
+
+            // Get blog ID from URL
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            const blogId =
+                params.get("id");
+
+
+            // Check ID
+
+            if (!blogId) {
+
+                container.innerHTML = `
+                    <h2 class="error-message">
+                        Blog ID is missing.
+                    </h2>
+
+                    <a href="blog.html" class="read-more">
+                        ← Back to Blogs
+                    </a>
+                `;
+
+                return;
+            }
+
+
+            try {
+
+                console.log("Loading blog ID:", blogId);
+
+
+                const response =
+                    await fetch(
+                        "/api/blogs/" +
+                        encodeURIComponent(blogId)
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log("API response:", data);
+
+
+                if (!response.ok) {
+
+                    container.innerHTML = `
+                        <h2 class="error-message">
+                            Blog not found
+                        </h2>
+
+                        <p>
+                            Blog ID:
+                            ${blogId}
+                        </p>
+
+                        <a href="blog.html"
+                           class="read-more">
+                            ← Back to Blogs
+                        </a>
+                    `;
+
+                    return;
+                }
+
+
+                /*
+                    The API may return:
+
+                    { blog: {...} }
+
+                    OR
+
+                    {...}
+                */
+
+                const blog =
+                    data.blog || data;
+
+
+                if (!blog) {
+
+                    container.innerHTML = `
+                        <h2 class="error-message">
+                            Blog not found
+                        </h2>
+
+                        <a href="blog.html"
+                           class="read-more">
+                            ← Back to Blogs
+                        </a>
+                    `;
+
+                    return;
+                }
+
+
+                // TITLE
+
+                const title =
+                    document.createElement("h1");
+
+                title.textContent =
+                    blog.title || "Untitled Blog";
+
+
+                // AUTHOR
+
+                const author =
+                    document.createElement("p");
+
+                author.className =
+                    "blog-author";
+
+
+                let authorName =
+                    "Unknown";
+
+
+                if (typeof blog.author === "string") {
+
+                    authorName =
+                        blog.author;
+
+                } else if (
+                    blog.author &&
+                    blog.author.name
+                ) {
+
+                    authorName =
+                        blog.author.name;
+
+                }
+
+
+                author.textContent =
+                    "By " + authorName;
+
+
+                // DATE
+
+                const date =
+                    document.createElement("small");
+
+                date.className =
+                    "blog-date";
+
+
+                if (blog.createdAt) {
+
+                    date.textContent =
+                        "Published on " +
+                        new Date(
+                            blog.createdAt
+                        ).toLocaleDateString();
+
+                }
+
+
+                // CONTENT
+
+                const content =
+                    document.createElement("div");
+
+                content.className =
+                    "blog-content";
+
+                content.textContent =
+                    blog.content ||
+                    "No content available.";
+
+
+                // BACK BUTTON
+
+                const back =
+                    document.createElement("a");
+
+                back.href =
+                    "blog.html";
+
+                back.textContent =
+                    "← Back to Blogs";
+
+                back.className =
+                    "read-more";
+
+
+                // DISPLAY
+
+                container.innerHTML = "";
+
+                container.appendChild(title);
+
+                container.appendChild(author);
+
+                container.appendChild(date);
+
+                container.appendChild(content);
+
+                container.appendChild(back);
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Error loading blog:",
+                    error
+                );
+
+
+                container.innerHTML = `
+                    <h2 class="error-message">
+                        Unable to load blog
+                    </h2>
+
+                    <p>
+                        ${error.message}
+                    </p>
+
+                    <a href="blog.html"
+                       class="read-more">
+                        ← Back to Blogs
+                    </a>
+                `;
+
+            }
+
+        }
+
+
+        // LOGOUT
+
+        function logoutUser() {
+
+            localStorage.removeItem("token");
+
+            localStorage.removeItem("currentUser");
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        // LOAD BLOG
+
+        loadBlogDetails();
+
+    </script>
+
+</body>
+
+</html>

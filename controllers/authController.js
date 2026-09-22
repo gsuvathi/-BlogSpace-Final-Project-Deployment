@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// REGISTER
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -12,8 +13,10 @@ const registerUser = async (req, res) => {
             });
         }
 
+        const normalizedEmail = email.toLowerCase().trim();
+
         const existingUser = await User.findOne({
-            email: email.toLowerCase()
+            email: normalizedEmail
         });
 
         if (existingUser) {
@@ -25,27 +28,29 @@ const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = new User({
-            name,
-            email: email.toLowerCase(),
+            name: name.trim(),
+            email: normalizedEmail,
             password: hashedPassword
         });
 
         await user.save();
 
-        res.status(201).json({
+        return res.status(201).json({
             message: "Registration successful"
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("REGISTER ERROR:", error);
 
-        res.status(500).json({
-            message: "Registration failed"
+        return res.status(500).json({
+            message: "Registration failed",
+            error: error.message
         });
     }
 };
 
 
+// LOGIN
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -56,8 +61,10 @@ const loginUser = async (req, res) => {
             });
         }
 
+        const normalizedEmail = email.toLowerCase().trim();
+
         const user = await User.findOne({
-            email: email.toLowerCase()
+            email: normalizedEmail
         });
 
         if (!user) {
@@ -79,7 +86,9 @@ const loginUser = async (req, res) => {
 
         const token = jwt.sign(
             {
-                userId: user._id
+                id: user._id.toString(),
+                name: user.name,
+                email: user.email
             },
             process.env.JWT_SECRET,
             {
@@ -87,7 +96,7 @@ const loginUser = async (req, res) => {
             }
         );
 
-        res.status(200).json({
+        return res.status(200).json({
             message: "Login successful",
             token,
             user: {
@@ -98,10 +107,11 @@ const loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("LOGIN ERROR:", error);
 
-        res.status(500).json({
-            message: "Login failed"
+        return res.status(500).json({
+            message: "Login failed",
+            error: error.message
         });
     }
 };

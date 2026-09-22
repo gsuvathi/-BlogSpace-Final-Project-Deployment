@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BlogSpace - Register</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="auth-page">
+
+        <div class="auth-card">
+
+            <!-- Logo -->
+            <div class="auth-logo">
+                BlogSpace
+            </div>
+
+            <!-- Heading -->
+            <h1 class="auth-title">
+                Create Account
+            </h1>
+
+            <p class="auth-subtitle">
+                Join BlogSpace and start sharing your stories
+            </p>
+
+
+            <!-- Register Form -->
+            <form id="registerForm">
+
+                <!-- Full Name -->
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        class="form-control"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Create a password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    class="auth-button"
+                    id="registerButton"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- Message -->
+            <p id="registerMessage"></p>
+
+
+            <!-- Login Link -->
+            <div class="auth-footer">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("registerForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const name =
+                    document
+                        .getElementById("name")
+                        .value
+                        .trim();
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+                const message =
+                    document
+                        .getElementById("registerMessage");
+
+                const button =
+                    document
+                        .getElementById("registerButton");
+
+
+                message.textContent = "";
+                message.style.color = "#dc2626";
+
+
+                if (!name || !email || !password) {
+
+                    message.textContent =
+                        "Please fill in all fields.";
+
+                    return;
+                }
+
+
+                if (password.length < 6) {
+
+                    message.textContent =
+                        "Password must be at least 6 characters.";
+
+                    return;
+                }
+
+
+                button.disabled = true;
+                button.textContent = "Creating Account...";
+
+
+                try {
+
+                    const response =
+                        await fetch("/api/auth/register", {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name: name,
+                                email: email,
+                                password: password
+                            })
+
+                        });
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (response.ok) {
+
+                        message.style.color = "#16a34a";
+
+                        message.textContent =
+                            "Account created successfully!";
+
+
+                        document
+                            .getElementById("registerForm")
+                            .reset();
+
+
+                        setTimeout(function () {
+
+                            window.location.href =
+                                "login.html";
+
+                        }, 1000);
+
+                    } else {
+
+                        message.style.color = "#dc2626";
+
+                        message.textContent =
+                            data.message ||
+                            "Registration failed.";
+
+                        button.disabled = false;
+                        button.textContent = "Create Account";
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Registration error:",
+                        error
+                    );
+
+                    message.style.color = "#dc2626";
+
+                    message.textContent =
+                        "Unable to connect to server.";
+
+                    button.disabled = false;
+                    button.textContent = "Create Account";
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>

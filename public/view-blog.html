@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>View Blog</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        nav a {
+            margin-right: 25px;
+            text-decoration: none;
+            color: #172033;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 35px;
+        }
+
+        #content {
+            line-height: 1.8;
+            color: #555;
+            white-space: pre-wrap;
+        }
+
+        .edit {
+            display: inline-block;
+            margin-top: 25px;
+            background: #2563eb;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <a href="/home.html">
+            Home
+        </a>
+
+        <a href="/create-blog.html">
+            Create Blog
+        </a>
+
+    </nav>
+
+
+    <div class="container">
+
+        <h1 id="title">
+            Loading...
+        </h1>
+
+        <p id="author"></p>
+
+        <p id="content"></p>
+
+        <a
+            id="editButton"
+            class="edit"
+        >
+            Edit Blog
+        </a>
+
+    </div>
+
+
+    <script>
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const blogId =
+            params.get("id");
+
+
+        async function loadBlog() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/api/blogs/${blogId}`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    document.getElementById(
+                        "title"
+                    ).textContent =
+                        data.message ||
+                        "Blog not found.";
+
+                    return;
+                }
+
+
+                const blog =
+                    data.blog;
+
+
+                document.getElementById(
+                    "title"
+                ).textContent =
+                    blog.title;
+
+
+                document.getElementById(
+                    "content"
+                ).textContent =
+                    blog.content;
+
+
+                if (blog.author) {
+
+                    document.getElementById(
+                        "author"
+                    ).textContent =
+                        `Author: ${
+                            blog.author.name ||
+                            blog.author.email ||
+                            "Unknown"
+                        }`;
+
+                }
+
+
+                document.getElementById(
+                    "editButton"
+                ).href =
+                    `/edit-blog.html?id=${blog._id}`;
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById(
+                    "title"
+                ).textContent =
+                    "Unable to load blog.";
+
+            }
+        }
+
+
+        if (blogId) {
+
+            loadBlog();
+
+        } else {
+
+            document.getElementById(
+                "title"
+            ).textContent =
+                "Blog ID is missing.";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

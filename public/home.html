@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BlogSpace - Home</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #1e293b;
+            color: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-links a,
+        .nav-links button {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover,
+        .nav-links button:hover {
+            background: #334155;
+        }
+
+        .create-btn {
+            background: #2563eb !important;
+        }
+
+        .create-btn:hover {
+            background: #1d4ed8 !important;
+        }
+
+        .logout-btn {
+            background: #dc2626 !important;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c !important;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 70px 20px 50px;
+            background: white;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #64748b;
+        }
+
+        /* Blog Section */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        #blogList {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .blog-card h3 {
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .category {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .author {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .content {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: inline-block;
+            margin-top: 15px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .message {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            color: #64748b;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background: #1e293b;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            BlogSpace
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/home.html">
+                Home
+            </a>
+
+            <a href="/dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="/create-blog.html" class="create-btn">
+                Create Blog
+            </a>
+
+            <a href="/login.html" id="loginLink">
+                Login
+            </a>
+
+            <a href="/register.html" id="registerLink">
+                Register
+            </a>
+
+            <button
+                id="logoutButton"
+                class="logout-btn"
+                style="display: none;"
+                onclick="logoutUser()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <h1>
+            Welcome to BlogSpace
+        </h1>
+
+        <p>
+            Share your ideas. Read interesting articles. Connect through stories.
+        </p>
+
+    </section>
+
+
+    <!-- BLOG SECTION -->
+    <main class="container">
+
+        <h2 class="section-title">
+            Latest Articles
+        </h2>
+
+        <div id="blogList">
+
+            <div class="message">
+                Loading blogs...
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 BlogSpace. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        /* =====================================================
+           LOAD BLOGS
+        ===================================================== */
+
+        async function loadBlogs() {
+
+            const blogList =
+                document.getElementById("blogList");
+
+            try {
+
+                const response =
+                    await fetch("/api/blogs");
+
+                const blogs =
+                    await response.json();
+
+                console.log("Blogs:", blogs);
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        blogs.message ||
+                        "Failed to load blogs"
+                    );
+
+                }
+
+                if (!blogs || blogs.length === 0) {
+
+                    blogList.innerHTML = `
+                        <div class="message">
+                            <h3>No blogs yet</h3>
+                            <p>
+                                Be the first person to create a blog!
+                            </p>
+                            <br>
+                            <a href="/create-blog.html"
+                               class="create-btn"
+                               style="color:white;
+                                      padding:10px 18px;
+                                      border-radius:6px;
+                                      text-decoration:none;">
+                                Create Blog
+                            </a>
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                blogList.innerHTML = "";
+
+
+                blogs.forEach(blog => {
+
+                    const shortContent =
+                        blog.content.length > 150
+                            ? blog.content.substring(0, 150) + "..."
+                            : blog.content;
+
+
+                    const card =
+                        document.createElement("div");
+
+                    card.className = "blog-card";
+
+
+                    card.innerHTML = `
+
+                        <span class="category">
+                            ${escapeHtml(blog.category)}
+                        </span>
+
+                        <h3>
+                            ${escapeHtml(blog.title)}
+                        </h3>
+
+                        <p class="author">
+                            By ${escapeHtml(blog.author)}
+                        </p>
+
+                        <p class="content">
+                            ${escapeHtml(shortContent)}
+                        </p>
+
+                        <a
+                            href="/blog-details.html?id=${blog._id}"
+                            class="read-more">
+                            Read More →
+                        </a>
+
+                    `;
+
+
+                    blogList.appendChild(card);
+
+                });
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load blogs error:",
+                    error
+                );
+
+                blogList.innerHTML = `
+
+                    <div class="message">
+
+                        <h3>
+                            Unable to load blogs
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(error.message)}
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           HTML ESCAPE
+        ===================================================== */
+
+        function escapeHtml(value) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                value ?? "";
+
+            return div.innerHTML;
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        function logoutUser() {
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "/login.html";
+        }
+
+
+        /* =====================================================
+           CHECK LOGIN
+        ===================================================== */
+
+        function checkLogin() {
+
+            const token =
+                localStorage.getItem("token");
+
+            const loginLink =
+                document.getElementById("loginLink");
+
+            const registerLink =
+                document.getElementById("registerLink");
+
+            const logoutButton =
+                document.getElementById("logoutButton");
+
+
+            if (token) {
+
+                loginLink.style.display =
+                    "none";
+
+                registerLink.style.display =
+                    "none";
+
+                logoutButton.style.display =
+                    "inline-block";
+
+            } else {
+
+                loginLink.style.display =
+                    "inline-block";
+
+                registerLink.style.display =
+                    "inline-block";
+
+                logoutButton.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           PAGE LOAD
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                checkLogin();
+                loadBlogs();
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
