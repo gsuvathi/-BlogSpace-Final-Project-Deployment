@@ -1,389 +1,810 @@
-<!DOCTYPE html>
-<html lang="en">
+```css
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 16px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #4f46e5;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.logo:hover {
+    color: #7c3aed;
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-    <title>BlogSpace | Home</title>
+.nav-links a {
+    color: #475569;
+    padding: 9px 14px;
+    border-radius: 7px;
 
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    font-size: 14px;
+    font-weight: 600;
 
-<body>
+    transition: 0.3s ease;
+}
 
-    <!-- NAVBAR -->
-    <header class="navbar">
+.nav-links a:hover {
+    color: #4f46e5;
+    background: #eef2ff;
+}
 
-        <a href="index.html" class="logo">
-            BlogSpace
-        </a>
+.nav-links a.active {
+    color: #4f46e5;
+}
 
-        <nav class="nav-links" id="navLinks">
+.register-btn {
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
 
-            <a href="index.html" class="active">
-                Home
-            </a>
+    color: #ffffff !important;
 
-            <a href="#blogs">
-                Blogs
-            </a>
+    padding: 9px 18px !important;
 
-            <a href="#categories">
-                Categories
-            </a>
+    box-shadow:
+        0 5px 12px rgba(79, 70, 229, 0.18);
+}
 
-            <a href="login.html">
-                Login
-            </a>
+.register-btn:hover {
+    color: #ffffff !important;
 
-            <a href="register.html" class="register-btn">
-                Register
-            </a>
+    transform: translateY(-2px);
 
-        </nav>
+    box-shadow:
+        0 8px 18px rgba(79, 70, 229, 0.25);
+}
 
-        <button class="menu-btn" onclick="toggleMenu()">
-            ☰
-        </button>
 
-    </header>
+/* =========================================
+   HERO
+========================================= */
 
+.hero {
+    min-height: 540px;
 
-    <!-- HERO -->
-    <section class="hero">
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        <div class="hero-content">
+    text-align: center;
 
-            <p class="small-title">
-                WELCOME TO BLOGSPACE
-            </p>
+    padding: 80px 20px;
 
-            <h1>
-                Share Your Stories.
-                <span>Inspire the World.</span>
-            </h1>
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff 0%,
+            #ffffff 50%,
+            #f5f3ff 100%
+        );
+}
 
-            <p class="hero-text">
-                Write, publish and discover amazing stories
-                from passionate writers around the world.
-            </p>
+.hero-content {
+    max-width: 850px;
+}
 
-            <div class="hero-buttons">
+.small-title {
+    display: inline-block;
 
-                <a href="register.html" class="primary-btn">
-                    Start Writing
-                </a>
+    margin-bottom: 18px;
 
-                <a href="#blogs" class="secondary-btn">
-                    Explore Blogs
-                </a>
+    color: #4f46e5;
 
-            </div>
+    font-size: 13px;
 
-        </div>
+    font-weight: 700;
 
-    </section>
+    letter-spacing: 2px;
+}
 
+.hero h1 {
+    color: #0f172a;
 
-    <!-- CATEGORIES -->
-    <section class="categories" id="categories">
+    font-size: clamp(38px, 6vw, 64px);
 
-        <div class="section-title">
+    line-height: 1.1;
 
-            <p>EXPLORE</p>
+    margin-bottom: 22px;
+}
 
-            <h2>
-                Popular Categories
-            </h2>
+.hero h1 span {
+    display: block;
 
-        </div>
+    color: #4f46e5;
+}
 
+.hero-text {
+    max-width: 680px;
 
-        <div class="category-grid">
+    margin: auto;
 
-            <div class="category-card">
+    color: #64748b;
 
-                <div class="icon">
-                    💻
-                </div>
+    font-size: 17px;
 
-                <h3>
-                    Technology
-                </h3>
+    line-height: 1.8;
+}
 
-                <p>
-                    Latest technology and programming articles.
-                </p>
+.hero-buttons {
+    margin-top: 32px;
 
-            </div>
+    display: flex;
 
+    justify-content: center;
 
-            <div class="category-card">
+    gap: 14px;
 
-                <div class="icon">
-                    🚀
-                </div>
+    flex-wrap: wrap;
+}
 
-                <h3>
-                    Development
-                </h3>
 
-                <p>
-                    Learn web development and software skills.
-                </p>
+/* =========================================
+   BUTTONS
+========================================= */
 
-            </div>
+.primary-btn,
+.secondary-btn {
+    display: inline-block;
 
+    padding: 12px 24px;
 
-            <div class="category-card">
+    border-radius: 8px;
 
-                <div class="icon">
-                    📚
-                </div>
+    font-size: 14px;
 
-                <h3>
-                    Education
-                </h3>
+    font-weight: 700;
 
-                <p>
-                    Knowledge, learning and educational content.
-                </p>
+    transition: 0.3s ease;
+}
 
-            </div>
+.primary-btn {
+    color: #ffffff;
 
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
 
-            <div class="category-card">
+    box-shadow:
+        0 6px 15px rgba(79, 70, 229, 0.20);
+}
 
-                <div class="icon">
-                    💼
-                </div>
+.primary-btn:hover {
+    transform: translateY(-2px);
 
-                <h3>
-                    Career
-                </h3>
+    box-shadow:
+        0 10px 22px rgba(79, 70, 229, 0.28);
+}
 
-                <p>
-                    Career advice and professional growth.
-                </p>
+.secondary-btn {
+    color: #4f46e5;
 
-            </div>
+    background: #ffffff;
 
-        </div>
+    border: 1px solid #c7d2fe;
+}
 
-    </section>
+.secondary-btn:hover {
+    background: #eef2ff;
+}
 
 
-    <!-- BLOGS -->
-    <section class="blogs" id="blogs">
+/* =========================================
+   SECTION TITLE
+========================================= */
 
-        <div class="section-title">
+.section-title {
+    max-width: 700px;
 
-            <p>OUR BLOG</p>
+    margin: 0 auto 45px;
 
-            <h2>
-                Latest Articles
-            </h2>
+    text-align: center;
+}
 
-        </div>
+.section-title p {
+    color: #4f46e5;
 
+    font-size: 12px;
 
-        <div class="blog-grid">
+    font-weight: 700;
 
+    letter-spacing: 2px;
 
-            <!-- BLOG 1 -->
-            <article class="blog-card">
+    margin-bottom: 8px;
+}
 
-                <div class="blog-image">
-                    💻
-                </div>
+.section-title h2 {
+    color: #0f172a;
 
-                <div class="blog-content">
+    font-size: 36px;
 
-                    <span class="category">
-                        Technology
-                    </span>
+    margin-bottom: 12px;
+}
 
-                    <h3>
-                        Getting Started With Web Development
-                    </h3>
+.section-title span {
+    color: #64748b;
 
-                    <p>
-                        Learn the basic concepts of HTML, CSS and
-                        JavaScript and start building websites.
-                    </p>
+    font-size: 15px;
+}
 
-                    <div class="blog-info">
 
-                        <span>
-                            By Admin
-                        </span>
+/* =========================================
+   CATEGORIES
+========================================= */
 
-                        <a href="#">
-                            Read More →
-                        </a>
+.categories {
+    max-width: 1200px;
 
-                    </div>
+    margin: auto;
 
-                </div>
+    padding: 85px 25px;
+}
 
-            </article>
+.category-grid {
+    display: grid;
 
+    grid-template-columns:
+        repeat(4, 1fr);
 
-            <!-- BLOG 2 -->
-            <article class="blog-card">
+    gap: 22px;
+}
 
-                <div class="blog-image">
-                    🚀
-                </div>
+.category-card {
+    position: relative;
 
-                <div class="blog-content">
+    background: #ffffff;
 
-                    <span class="category">
-                        Development
-                    </span>
+    border: 1px solid #e2e8f0;
 
-                    <h3>
-                        How to Build Your First Website
-                    </h3>
+    border-radius: 16px;
 
-                    <p>
-                        A beginner-friendly guide to creating
-                        your first responsive website.
-                    </p>
+    padding: 30px 24px;
 
-                    <div class="blog-info">
+    text-align: center;
 
-                        <span>
-                            By Admin
-                        </span>
+    overflow: hidden;
 
-                        <a href="#">
-                            Read More →
-                        </a>
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, 0.05);
 
-                    </div>
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
 
-                </div>
+.category-card::before {
+    content: "";
 
-            </article>
+    position: absolute;
 
+    top: 0;
+    left: 0;
 
-            <!-- BLOG 3 -->
-            <article class="blog-card">
+    width: 100%;
+    height: 4px;
 
-                <div class="blog-image">
-                    📚
-                </div>
+    background: linear-gradient(
+        90deg,
+        #4f46e5,
+        #7c3aed
+    );
+}
 
-                <div class="blog-content">
+.category-card:hover {
+    transform: translateY(-7px);
 
-                    <span class="category">
-                        Education
-                    </span>
+    box-shadow:
+        0 15px 30px rgba(15, 23, 42, 0.10);
+}
 
-                    <h3>
-                        Why Learning Programming Matters
-                    </h3>
+.icon {
+    width: 62px;
+    height: 62px;
 
-                    <p>
-                        Discover how programming skills can help
-                        you build a successful technology career.
-                    </p>
+    margin: 0 auto 18px;
 
-                    <div class="blog-info">
+    display: flex;
 
-                        <span>
-                            By Admin
-                        </span>
+    align-items: center;
+    justify-content: center;
 
-                        <a href="#">
-                            Read More →
-                        </a>
+    background: #eef2ff;
 
-                    </div>
+    border-radius: 15px;
 
-                </div>
+    font-size: 28px;
+}
 
-            </article>
+.category-card h3 {
+    color: #0f172a;
 
+    font-size: 19px;
 
-        </div>
+    margin-bottom: 10px;
+}
 
-    </section>
+.category-card p {
+    min-height: 48px;
 
+    color: #64748b;
 
-    <!-- CTA -->
-    <section class="cta">
+    font-size: 14px;
 
-        <h2>
-            Have a story to share?
-        </h2>
+    line-height: 1.6;
+}
 
-        <p>
-            Create your account and start publishing today.
-        </p>
+.category-content a {
+    display: inline-block;
 
-        <a href="register.html" class="primary-btn">
-            Create Account
-        </a>
+    margin-top: 18px;
 
-    </section>
+    color: #4f46e5;
 
+    font-size: 13px;
 
-    <!-- FOOTER -->
-    <footer class="footer">
+    font-weight: 700;
+}
 
-        <div class="footer-content">
+.category-content a:hover {
+    color: #7c3aed;
+}
 
-            <div>
 
-                <h2>
-                    BlogSpace
-                </h2>
+/* =========================================
+   BLOGS
+========================================= */
 
-                <p>
-                    A simple platform to write, share and
-                    discover amazing stories.
-                </p>
+.blogs {
+    background: #f1f5f9;
 
-            </div>
+    padding: 85px 25px;
+}
 
+.blog-grid {
+    max-width: 1200px;
 
-            <div>
+    margin: auto;
 
-                <h3>
-                    Quick Links
-                </h3>
+    display: grid;
 
-                <a href="index.html">
-                    Home
-                </a>
+    grid-template-columns:
+        repeat(3, 1fr);
 
-                <a href="login.html">
-                    Login
-                </a>
+    gap: 25px;
+}
 
-                <a href="register.html">
-                    Register
-                </a>
+.blog-card {
+    background: #ffffff;
 
-            </div>
+    border: 1px solid #e2e8f0;
 
-        </div>
+    border-radius: 16px;
 
+    overflow: hidden;
 
-        <div class="copyright">
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, 0.05);
 
-            © 2026 BlogSpace. All Rights Reserved.
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
 
-        </div>
+.blog-card:hover {
+    transform: translateY(-6px);
 
-    </footer>
+    box-shadow:
+        0 15px 30px rgba(15, 23, 42, 0.10);
+}
 
+.blog-image {
+    height: 170px;
 
-    <script src="js/script.js"></script>
+    display: flex;
 
-</body>
+    align-items: center;
+    justify-content: center;
 
-</html>
+    font-size: 55px;
+
+    background: #eef2ff;
+}
+
+.development-image {
+    background: #f5f3ff;
+}
+
+.education-image {
+    background: #ecfeff;
+}
+
+.blog-content {
+    padding: 24px;
+}
+
+.category {
+    display: inline-block;
+
+    padding: 5px 11px;
+
+    margin-bottom: 12px;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.blog-content h3 {
+    color: #0f172a;
+
+    font-size: 20px;
+
+    line-height: 1.4;
+
+    margin-bottom: 10px;
+}
+
+.blog-content > p {
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+}
+
+.blog-info {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+.blog-info span {
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+.blog-info a {
+    color: #4f46e5;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.blog-info a:hover {
+    color: #7c3aed;
+}
+
+
+/* =========================================
+   CTA
+========================================= */
+
+.cta {
+    padding: 85px 25px;
+
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        #eef2ff,
+        #f5f3ff
+    );
+}
+
+.cta-content {
+    max-width: 700px;
+
+    margin: auto;
+}
+
+.cta-content > span {
+    color: #4f46e5;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.cta h2 {
+    color: #0f172a;
+
+    font-size: 36px;
+
+    margin: 12px 0;
+}
+
+.cta p {
+    color: #64748b;
+
+    font-size: 16px;
+
+    margin-bottom: 28px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    background: #0f172a;
+
+    color: #ffffff;
+
+    padding: 55px 25px 20px;
+}
+
+.footer-content {
+    max-width: 1100px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr;
+
+    gap: 60px;
+}
+
+.footer-brand h2 {
+    color: #ffffff;
+
+    font-size: 24px;
+
+    margin-bottom: 12px;
+}
+
+.footer-brand p {
+    max-width: 400px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.footer-links {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 9px;
+}
+
+.footer-links h3 {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: #94a3b8;
+
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+.copyright {
+    max-width: 1100px;
+
+    margin: 40px auto 0;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #334155;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .category-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .blog-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .nav-container {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .nav-links {
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    .hero {
+        min-height: 500px;
+
+        padding: 70px 20px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+
+        gap: 35px;
+    }
+
+    .footer-brand p {
+        margin: auto;
+    }
+
+    .footer-links {
+        align-items: center;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .nav-container {
+        padding: 14px 15px;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .nav-links {
+        gap: 4px;
+    }
+
+    .nav-links a {
+        padding: 7px 9px;
+
+        font-size: 12px;
+    }
+
+    .register-btn {
+        padding: 8px 12px !important;
+    }
+
+    .hero {
+        padding: 60px 18px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+    }
+
+    .section-title h2 {
+        font-size: 30px;
+    }
+
+    .categories,
+    .blogs {
+        padding: 65px 18px;
+    }
+
+    .cta {
+        padding: 65px 18px;
+    }
+
+    .cta h2 {
+        font-size: 30px;
+    }
+
+}
+```

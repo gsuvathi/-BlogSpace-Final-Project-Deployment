@@ -1,5 +1,7 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,181 +21,349 @@
             color: #222;
         }
 
-        /* Navbar */
+        /* =========================
+           NAVBAR
+        ========================= */
+
         .navbar {
-            background: #1e293b;
-            color: white;
-            padding: 18px 50px;
+            background: #ffffff;
+            color: #1e293b;
+            padding: 16px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
         }
 
         .logo {
+            color: #4f46e5;
             font-size: 25px;
             font-weight: bold;
+            text-decoration: none;
         }
 
         .nav-links {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
         }
 
         .nav-links a,
         .nav-links button {
-            color: white;
+            color: #475569;
             text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 6px;
+            padding: 9px 14px;
+            border-radius: 7px;
             border: none;
             background: transparent;
             cursor: pointer;
             font-size: 15px;
+            font-family: inherit;
+            transition: 0.3s ease;
         }
 
-        .nav-links a:hover,
-        .nav-links button:hover {
-            background: #334155;
+        .nav-links a:hover {
+            background: #eef2ff;
+            color: #4f46e5;
         }
+
+        /* Active Home */
+
+        .nav-links a:first-child {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        /* Create Blog */
 
         .create-btn {
-            background: #2563eb !important;
+            background: #4f46e5 !important;
+            color: white !important;
         }
 
         .create-btn:hover {
-            background: #1d4ed8 !important;
+            background: #4338ca !important;
+            color: white !important;
         }
 
+        /* Logout */
+
         .logout-btn {
-            background: #dc2626 !important;
+            background: #ef4444 !important;
+            color: white !important;
         }
 
         .logout-btn:hover {
-            background: #b91c1c !important;
+            background: #dc2626 !important;
         }
 
-        /* Hero */
+
+        /* =========================
+           HERO
+        ========================= */
+
         .hero {
             text-align: center;
-            padding: 70px 20px 50px;
-            background: white;
+            padding: 80px 20px 70px;
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #ffffff
+            );
         }
 
         .hero h1 {
-            font-size: 42px;
-            margin-bottom: 15px;
+            font-size: 44px;
+            color: #0f172a;
+            margin-bottom: 18px;
         }
 
         .hero p {
+            max-width: 700px;
+            margin: 0 auto;
             font-size: 18px;
+            line-height: 1.7;
             color: #64748b;
         }
 
-        /* Blog Section */
+
+        /* =========================
+           BLOG SECTION
+        ========================= */
+
         .container {
             max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 0 auto;
+            padding: 70px 20px;
         }
 
         .section-title {
-            font-size: 30px;
-            margin-bottom: 25px;
+            text-align: center;
+            font-size: 32px;
+            color: #0f172a;
+            margin-bottom: 35px;
         }
 
         #blogList {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(280px, 1fr)
+            );
             gap: 25px;
         }
 
+
+        /* =========================
+           BLOG CARD
+        ========================= */
+
         .blog-card {
-            background: white;
-            border-radius: 10px;
+            background: #ffffff;
+            border-radius: 14px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 5px 20px rgba(15, 23, 42, 0.06);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 12px 30px rgba(15, 23, 42, 0.10);
         }
 
         .blog-card h3 {
             margin-bottom: 12px;
             font-size: 22px;
+            color: #0f172a;
+            line-height: 1.4;
         }
 
         .category {
             display: inline-block;
-            background: #e0e7ff;
-            color: #3730a3;
-            padding: 5px 10px;
-            border-radius: 15px;
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 6px 11px;
+            border-radius: 20px;
             font-size: 13px;
-            margin-bottom: 12px;
+            font-weight: 600;
+            margin-bottom: 14px;
         }
 
         .author {
             color: #64748b;
             font-size: 14px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .content {
             color: #475569;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 15px;
         }
 
         .read-more {
             display: inline-block;
-            margin-top: 15px;
-            color: #2563eb;
+            margin-top: 18px;
+            color: #4f46e5;
             text-decoration: none;
             font-weight: bold;
+            font-size: 14px;
         }
 
+        .read-more:hover {
+            color: #7c3aed;
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
         .message {
+            grid-column: 1 / -1;
+
             text-align: center;
-            padding: 30px;
+            padding: 35px;
+
             background: white;
-            border-radius: 10px;
+
+            border-radius: 12px;
+
+            border: 1px solid #e2e8f0;
+
             color: #64748b;
         }
 
-        /* Footer */
+        .message h3 {
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .message p {
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
             text-align: center;
+
             padding: 30px;
-            margin-top: 50px;
-            background: #1e293b;
-            color: white;
+
+            margin-top: 20px;
+
+            background: #0f172a;
+
+            color: #cbd5e1;
         }
+
+        footer p {
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
 
         @media (max-width: 768px) {
 
             .navbar {
                 padding: 15px 20px;
+
                 flex-direction: column;
+
                 gap: 15px;
             }
 
             .nav-links {
+                width: 100%;
+
                 flex-wrap: wrap;
+
                 justify-content: center;
             }
 
+            .hero {
+                padding: 65px 20px 55px;
+            }
+
             .hero h1 {
-                font-size: 32px;
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .container {
+                padding: 55px 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .nav-links {
+                gap: 5px;
+            }
+
+            .nav-links a,
+            .nav-links button {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            #blogList {
+                grid-template-columns: 1fr;
             }
         }
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
     <nav class="navbar">
 
-        <div class="logo">
+        <a href="/home.html" class="logo">
             BlogSpace
-        </div>
+        </a>
+
 
         <div class="nav-links">
 
@@ -205,15 +375,21 @@
                 Dashboard
             </a>
 
-            <a href="/create-blog.html" class="create-btn">
+            <a
+                href="/create-blog.html"
+                class="create-btn">
                 Create Blog
             </a>
 
-            <a href="/login.html" id="loginLink">
+            <a
+                href="/login.html"
+                id="loginLink">
                 Login
             </a>
 
-            <a href="/register.html" id="registerLink">
+            <a
+                href="/register.html"
+                id="registerLink">
                 Register
             </a>
 
@@ -230,7 +406,10 @@
     </nav>
 
 
-    <!-- HERO -->
+    <!-- =========================
+         HERO
+    ========================= -->
+
     <section class="hero">
 
         <h1>
@@ -238,18 +417,23 @@
         </h1>
 
         <p>
-            Share your ideas. Read interesting articles. Connect through stories.
+            Share your ideas. Read interesting articles.
+            Connect through stories.
         </p>
 
     </section>
 
 
-    <!-- BLOG SECTION -->
+    <!-- =========================
+         BLOG SECTION
+    ========================= -->
+
     <main class="container">
 
         <h2 class="section-title">
             Latest Articles
         </h2>
+
 
         <div id="blogList">
 
@@ -262,7 +446,10 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
     <footer>
 
         <p>
@@ -293,6 +480,7 @@
 
                 console.log("Blogs:", blogs);
 
+
                 if (!response.ok) {
 
                     throw new Error(
@@ -302,23 +490,36 @@
 
                 }
 
+
                 if (!blogs || blogs.length === 0) {
 
                     blogList.innerHTML = `
                         <div class="message">
-                            <h3>No blogs yet</h3>
+
+                            <h3>
+                                No blogs yet
+                            </h3>
+
                             <p>
-                                Be the first person to create a blog!
+                                Be the first person
+                                to create a blog!
                             </p>
+
                             <br>
-                            <a href="/create-blog.html"
-                               class="create-btn"
-                               style="color:white;
-                                      padding:10px 18px;
-                                      border-radius:6px;
-                                      text-decoration:none;">
+
+                            <a
+                                href="/create-blog.html"
+                                class="create-btn"
+                                style="
+                                    color:white;
+                                    padding:10px 18px;
+                                    border-radius:6px;
+                                    text-decoration:none;
+                                    display:inline-block;
+                                ">
                                 Create Blog
                             </a>
+
                         </div>
                     `;
 
@@ -340,7 +541,8 @@
                     const card =
                         document.createElement("div");
 
-                    card.className = "blog-card";
+                    card.className =
+                        "blog-card";
 
 
                     card.innerHTML = `
@@ -381,6 +583,7 @@
                     "Load blogs error:",
                     error
                 );
+
 
                 blogList.innerHTML = `
 
@@ -427,10 +630,12 @@
         function logoutUser() {
 
             localStorage.removeItem("token");
+
             localStorage.removeItem("user");
 
             window.location.href =
                 "/login.html";
+
         }
 
 
@@ -443,11 +648,14 @@
             const token =
                 localStorage.getItem("token");
 
+
             const loginLink =
                 document.getElementById("loginLink");
 
+
             const registerLink =
                 document.getElementById("registerLink");
+
 
             const logoutButton =
                 document.getElementById("logoutButton");
@@ -489,6 +697,7 @@
             () => {
 
                 checkLogin();
+
                 loadBlogs();
 
             }
@@ -496,5 +705,8 @@
 
     </script>
 
+
 </body>
+
 </html>
+```
